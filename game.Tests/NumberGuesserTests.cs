@@ -81,10 +81,10 @@ namespace Game.Tests
             var guesser = new NumberGuesser(5);
 
             guesser.Guess("3");
-            guesser.Guess("5"); // правильний варіант
+            guesser.Guess("5");
             var attemptsAfterCorrect = guesser.Attempts;
 
-            guesser.Guess("4"); // не повинно рахуватись
+            guesser.Guess("4");
             Assert.Equal(attemptsAfterCorrect, guesser.Attempts);
         }
     }
