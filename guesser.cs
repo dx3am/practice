@@ -1,41 +1,37 @@
+public class GuessResult
+{
+    public bool IsCorrect { get; set; }
+    public string Message { get; set; }
+}
+
 public class NumberGuesser
 {
-    private readonly int _target;
-    public int Attempts { get; private set; }
+    private int targetNumber;
 
     public NumberGuesser(int target)
     {
-        _target = target;
-        Attempts = 0;
+        targetNumber = target;
     }
 
-    public string Guess(string input)
+    public GuessResult Guess(string input)
     {
         if (!int.TryParse(input, out int number))
-            return "Оригінально. Якщо вводити літери, можливо, число злякається і саме назветься?";
-
+        {
+            return new GuessResult { IsCorrect = false, Message = "Оригінально. Якщо вводити літери, можливо, число злякається і саме назветься?" };
+        }
         if (number < 1 || number > 7)
-            return "Сміливо! Але давай все ж таки в межах 1–7.";
+        {
+            return new GuessResult { IsCorrect = false, Message = "Сміливо! Але давай все ж таки в межах 1-7." };
+        }
+        if (number < targetNumber)
+        {
+            return new GuessResult { IsCorrect = false, Message = "Цікава стратегія – недооцінювати." };
+        }
+        if (number > targetNumber)
+        {
+            return new GuessResult { IsCorrect = false, Message = "Занадто завищена оцінка!" };
+        }
 
-        Attempts++;
-
-        if (number < _target)
-            return "Цікава стратегія – недооцінювати ситуацію.";
-        if (number > _target)
-            return "Ого, хтось явно вірить у великі числа.";
-
-        return $"Оце так, {Attempts} спроб(и) – і успіх! Справжній аналітик…";
-    }
-}
-
-public class GuessResult
-{
-    public bool IsCorrect { get; }
-    public string Message { get; }
-
-    public GuessResult(bool isCorrect, string message)
-    {
-        IsCorrect = isCorrect;
-        Message = message;
+        return new GuessResult { IsCorrect = true, Message = "Вітаю! Ви вгадали число!" };
     }
 }
