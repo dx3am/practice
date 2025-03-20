@@ -48,4 +48,41 @@ describe("Додаток контактів - розширені тести", ()
 
     cy.get(".contacts-list").children().should("have.length.above", 0);
   });
+
+  it("Дозволяє змінювати контакт без втрати даних", () => {
+    cy.get('input[placeholder="Ім\'я"]').type("Ірина");
+    cy.get('input[placeholder="Телефон"]').type("123321123");
+    cy.contains("button", "Додати").click();
+
+    cy.contains("li", "Ірина - 123321123").within(() => {
+      cy.contains("button", "Редагувати").click();
+    });
+
+    cy.get('input[placeholder="Ім\'я"]').clear().type("Ірина Петрова");
+    cy.contains("button", "Редагувати").click();
+
+    cy.contains("li", "Ірина Петрова - 123321123").should("be.visible");
+  });
+
+  it("Очищає поля після додавання контакту", () => {
+    cy.get('input[placeholder="Ім\'я"]').type("Михайло");
+    cy.get('input[placeholder="Телефон"]').type("789456123");
+    cy.contains("button", "Додати").click();
+
+    cy.get('input[placeholder="Ім\'я"]').should("have.value", "");
+    cy.get('input[placeholder="Телефон"]').should("have.value", "");
+  });
+
+  it("Перевіряє зміну кнопки під час редагування", () => {
+    cy.get('input[placeholder="Ім\'я"]').type("Юля");
+    cy.get('input[placeholder="Телефон"]').type("777999555");
+    cy.contains("button", "Додати").click();
+
+    cy.contains("li", "Юля - 777999555").within(() => {
+      cy.contains("button", "Редагувати").click();
+    });
+
+    cy.contains("button", "Редагувати").should("exist");
+    cy.contains("button", "Додати").should("not.exist");
+  });
 });
