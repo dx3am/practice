@@ -19,11 +19,10 @@ class Program
                 continue;
             }
 
-            string response = game.Guess(input);
+            GuessResult result = game.Guess(input);
+            Console.WriteLine(result.Message);
 
-            Console.WriteLine(response);
-
-            if (response.Contains("успіх"))
+            if (result.IsCorrect)
                 break;
         }
     }
