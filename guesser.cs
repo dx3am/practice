@@ -27,3 +27,15 @@ public class NumberGuesser
         return $"Оце так, {Attempts} спроб(и) – і успіх! Справжній аналітик…";
     }
 }
+
+public class GuessResult
+{
+    public bool IsCorrect { get; }
+    public string Message { get; }
+
+    public GuessResult(bool isCorrect, string message)
+    {
+        IsCorrect = isCorrect;
+        Message = message;
+    }
+}
